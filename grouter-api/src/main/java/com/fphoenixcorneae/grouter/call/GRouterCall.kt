@@ -2,6 +2,7 @@ package com.fphoenixcorneae.grouter.call
 
 import com.fphoenixcorneae.grouter.interceptor.GRouterInterceptorChain
 import com.fphoenixcorneae.grouter.interceptor.Interceptor
+import com.fphoenixcorneae.grouter.interceptor.UriInterceptor
 
 class GRouterCall private constructor(
     private val client: GRouterClient,
@@ -16,7 +17,7 @@ class GRouterCall private constructor(
     private var executed = false
 
     override fun interceptors(): List<Interceptor> {
-        return client.interceptors()
+        return client.interceptors().plus(UriInterceptor())
     }
 
     override fun originalRequest(): GRouterRequest {

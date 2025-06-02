@@ -3,5 +3,7 @@
 
     <application>
         <activity android:name="com.fphoenixcorneae.grouter.OrderDetailActivity" />
+        <activity android:name="com.fphoenixcorneae.grouter.LoginActivity" />
+        <activity android:name="com.fphoenixcorneae.grouter.H5Activity" />
     </application>
 </manifest>

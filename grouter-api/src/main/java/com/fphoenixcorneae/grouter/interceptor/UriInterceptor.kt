@@ -6,13 +6,13 @@ import com.fphoenixcorneae.grouter.GRouter
 import com.fphoenixcorneae.grouter.call.GRouterResponse
 
 /**
- * URI 拦截器
+ * Uri 拦截器
  */
 class UriInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): GRouterResponse {
-        val request = chain.request()
-        val uri = request.uri()
+        val originalRequest = chain.request()
+        val uri = originalRequest.uri()
         uri?.let {
             GRouter.findTargetByUri(it)?.let { route ->
                 val extras = Intent()
@@ -20,21 +20,19 @@ class UriInterceptor : Interceptor {
                     extras.putExtra(key, uri.getQueryParameter(key))
                 }
                 val intent =
-                    if (Fragment::class.java.isAssignableFrom(route.target.java) && request.fragmentContainerProvider() != null) {
-                        request.fragmentContainerProvider()!!.invoke().apply {
+                    if (Fragment::class.java.isAssignableFrom(route.target.java) && originalRequest.fragmentContainerProvider() != null) {
+                        originalRequest.fragmentContainerProvider()!!.invoke().apply {
                             putExtras(extras)
                         }
                     } else {
-                        Intent(request.requireContext(), route.target.java).apply {
+                        Intent(originalRequest.requireContext(), route.target.java).apply {
                             putExtras(extras)
                         }
                     }
-                request.extras()?.let { intent.putExtras(it) }
-                return GRouterResponse.Builder()
-                    .request(request.newBuilder().extras(intent).build())
-                    .build()
+                originalRequest.extras()?.let { intent.putExtras(it) }
+                return chain.proceed(originalRequest.newBuilder().extras(intent).build())
             }
         }
-        return chain.proceed(request)
+        return chain.proceed(originalRequest)
     }
 }

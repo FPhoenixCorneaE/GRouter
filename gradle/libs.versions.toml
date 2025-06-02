@@ -33,6 +33,9 @@ kotlinpoet = { group = "com.squareup", name = "kotlinpoet", version = "1.14.2" }
 asm = { group = "org.ow2.asm", name = "asm", version.ref = "asm" }
 asm-commons = { group = "org.ow2.asm", name = "asm-commons", version.ref = "asm" }
 gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+grouter-process = { group = "com.github.FPhoenixCorneaE.GRouter", name = "grouter-process", version.ref = "grouter" }
+grouter-api = { group = "com.github.FPhoenixCorneaE.GRouter", name = "grouter-api", version.ref = "grouter" }
+grouter-plugin = { group = "com.github.FPhoenixCorneaE.GRouter", name = "grouter-plugin", version.ref = "grouter" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

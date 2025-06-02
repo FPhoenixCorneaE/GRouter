@@ -21,9 +21,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun jump2Second(view: View) {
+        DemoApp.isSignedIn = false
         GRouter.with(view.context)
             .url("deeplink://grouter/second")
             .start()
+        DemoApp.isSignedIn = true
     }
 
     fun jump2OrderDetail(view: View) {
@@ -32,6 +34,12 @@ class MainActivity : AppCompatActivity() {
             .extras(Intent().apply {
                 putExtra("order_id", "12345678")
             })
+            .start()
+    }
+
+    fun jump2H5(view: View) {
+        GRouter.with(view.context)
+            .url("https://www.baidu.com/")
             .start()
     }
 }

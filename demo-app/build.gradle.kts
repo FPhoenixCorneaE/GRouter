@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.devtools.ksp)
-//    id("grouter-plugin")
+    id("grouter-plugin")
 }
 
 ksp {
@@ -55,6 +55,8 @@ dependencies {
     // grouter
     ksp(projects.grouterProcess)
     implementation(projects.grouterApi)
+//    ksp(libs.grouter.process)
+//    implementation(libs.grouter.api)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

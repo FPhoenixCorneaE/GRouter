@@ -6,12 +6,11 @@ import android.util.Log
 import com.fphoenixcorneae.grouter.annotation.RouteInfo
 import com.fphoenixcorneae.grouter.call.GRouterClient
 import com.fphoenixcorneae.grouter.call.GRouterRequest
-import com.fphoenixcorneae.grouter.interceptor.UriInterceptor
 import com.fphoenixcorneae.grouter.register.IRouteRegister
 
 object GRouter {
     private val routes = mutableSetOf<RouteInfo>()
-    private var client = GRouterClient.Builder().addInterceptor(UriInterceptor()).build()
+    private var client = GRouterClient.Builder().build()
 
     init {
         // 注册路由信息
