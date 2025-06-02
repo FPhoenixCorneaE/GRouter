@@ -36,10 +36,10 @@ afterEvaluate {
                 version = libs.versions.grouter.get()
             }
         }
-        repositories {
-            maven {
-                url = uri("../localRepos")
-            }
-        }
+//        repositories {
+//            maven {
+//                url = uri("../localRepos")
+//            }
+//        }
     }
 }

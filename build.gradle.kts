@@ -9,6 +9,6 @@ plugins {
 
 buildscript {
     dependencies {
-        classpath("com.github.FPhoenixCorneaE:grouter-plugin:1.0.0")
+//        classpath("com.github.FPhoenixCorneaE:grouter-plugin:1.0.0")
     }
 }

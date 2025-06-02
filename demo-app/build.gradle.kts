@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.devtools.ksp)
-    id("grouter-plugin")
+//    id("grouter-plugin")
 }
 
 ksp {
