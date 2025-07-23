@@ -12,7 +12,7 @@ annotation class Router(
      */
     val host: String = "",
     /**
-     * 路由 path，可以为 "" 或者以 "/" 开头，例如 "/index\\.html"，支持正则表达式，注意需要转义
+     * 路由 path，必须以 "/" 开头，例如 "/index\\.html"，支持正则表达式，注意需要转义
      */
     val path: String = "",
     /**
@@ -22,16 +22,16 @@ annotation class Router(
 )
 
 fun Router.routeUrl(defaultScheme: String?, defaultHost: String?): String {
-    val scheme = scheme.ifEmpty { defaultScheme.orEmpty() }
-    val host = host.ifEmpty { defaultHost.orEmpty() }
-    if (scheme.contains(":") || scheme.contains("/")) {
-        throw IllegalArgumentException("Router Scheme '$scheme' must not be null and must not contains ':' or '/'")
+    val scheme = scheme.ifEmpty { defaultScheme }
+    val host = host.ifEmpty { defaultHost }
+    if (scheme.isNullOrEmpty() || scheme.contains(":") || scheme.contains("/")) {
+        throw IllegalArgumentException("GRouter Scheme '$scheme' must not be null or empty and must not contains ':' or '/'")
     }
-    if (host.contains('/')) {
-        throw IllegalArgumentException("Router Host '$host' must not be null and must not contains '/'")
+    if (host.isNullOrEmpty() || host.contains('/')) {
+        throw IllegalArgumentException("GRouter Host '$host' must not be null or empty and must not contains '/'")
     }
-    if (path.isNotEmpty() && !path.startsWith('/')) {
-        throw IllegalArgumentException("Router Path '$path' must start with '/'")
+    if (path.isEmpty() || !path.startsWith('/')) {
+        throw IllegalArgumentException("GRouter Path '$path' must not be empty and must start with '/'")
     }
     return "$scheme://$host$path"
 }

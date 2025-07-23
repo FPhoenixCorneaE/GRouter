@@ -33,7 +33,7 @@ dependencyResolutionManagement {
 }
 ```
 
-2. #### 添加 grouter-plugin 插件，用于字节码注入自动生成 RouterRegister 类
+2. #### 添加 grouter 插件，用于字节码注入自动生成 RouterRegister 类
 
 > <font color="red">注意：插件仅支持 AGP 7.4+</font>
 
@@ -51,11 +51,11 @@ application build.gradle.kts:
 
 ```kotlin
 plugins {
-    id("grouter-plugin")
+    id("grouter")
 }
 ```
 
-3. #### 添加 ksp 注解处理器以及 Router 依赖
+3. #### 添加 ksp 注解处理器以及 GRouter 依赖
 
 ```kotlin
 plugins {

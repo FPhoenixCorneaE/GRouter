@@ -12,6 +12,8 @@ import java.io.OutputStream
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
 import java.lang.reflect.Proxy
+import java.math.BigInteger
+import java.security.MessageDigest
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KClass
 
@@ -39,7 +41,8 @@ private fun KSAnnotation.createInvocationHandler(clazz: Class<*>): InvocationHan
                     arguments.map { argument: KSValueArgument ->
                         // handles default values for enums otherwise returns null
                         val methodName = argument.name?.asString()
-                        val value = proxy.javaClass.methods.find { m -> m.name == methodName }?.invoke(proxy)
+                        val value = proxy.javaClass.methods.find { m -> m.name == methodName }
+                            ?.invoke(proxy)
                         "$methodName=$value"
                     }.toList()
         } else {
@@ -50,6 +53,7 @@ private fun KSAnnotation.createInvocationHandler(clazz: Class<*>): InvocationHan
                     val value = { result.asArray(method, clazz) }
                     cache.getOrPut(Pair(method.returnType, result), value)
                 }
+
                 else -> {
                     when {
                         // Workaround for java annotation value array type
@@ -62,14 +66,17 @@ private fun KSAnnotation.createInvocationHandler(clazz: Class<*>): InvocationHan
                                 throw IllegalStateException("unhandled value type, $ExceptionMessage")
                             }
                         }
+
                         method.returnType.isEnum -> {
                             val value = { result.asEnum(method.returnType) }
                             cache.getOrPut(Pair(method.returnType, result), value)
                         }
+
                         method.returnType.isAnnotation -> {
                             val value = { (result as KSAnnotation).asAnnotation(method.returnType) }
                             cache.getOrPut(Pair(method.returnType, result), value)
                         }
+
                         method.returnType.name == "java.lang.Class" -> {
                             cache.getOrPut(Pair(method.returnType, result)) {
                                 when (result) {
@@ -84,26 +91,32 @@ private fun KSAnnotation.createInvocationHandler(clazz: Class<*>): InvocationHan
                                 }
                             }
                         }
+
                         method.returnType.name == "byte" -> {
                             val value = { result.asByte() }
                             cache.getOrPut(Pair(method.returnType, result), value)
                         }
+
                         method.returnType.name == "short" -> {
                             val value = { result.asShort() }
                             cache.getOrPut(Pair(method.returnType, result), value)
                         }
+
                         method.returnType.name == "long" -> {
                             val value = { result.asLong() }
                             cache.getOrPut(Pair(method.returnType, result), value)
                         }
+
                         method.returnType.name == "float" -> {
                             val value = { result.asFloat() }
                             cache.getOrPut(Pair(method.returnType, result), value)
                         }
+
                         method.returnType.name == "double" -> {
                             val value = { result.asDouble() }
                             cache.getOrPut(Pair(method.returnType, result), value)
                         }
+
                         else -> result // original value
                     }
                 }
@@ -130,11 +143,13 @@ private fun List<*>.asArray(method: Method, proxyClass: Class<*>) =
                 method.returnType.componentType.isEnum -> {
                     this.toArray(method) { result -> result.asEnum(method.returnType.componentType) }
                 }
+
                 method.returnType.componentType.isAnnotation -> {
                     this.toArray(method) { result ->
                         (result as KSAnnotation).asAnnotation(method.returnType.componentType)
                     }
                 }
+
                 else -> throw IllegalStateException("Unable to process type ${method.returnType.componentType.name}")
             }
         }
@@ -174,7 +189,8 @@ private fun Any.asFloat(): Float = if (this is Int) this.toFloat() else this as 
 
 private fun Any.asDouble(): Double = if (this is Int) this.toDouble() else this as Double
 
-private fun Any.asArray(method: Method, proxyClass: Class<*>) = listOf(this).asArray(method, proxyClass)
+private fun Any.asArray(method: Method, proxyClass: Class<*>) =
+    listOf(this).asArray(method, proxyClass)
 
 private fun KSAnnotation.asAnnotation(
     annotationInterface: Class<*>,
@@ -199,14 +215,23 @@ private fun KSType.asClass(proxyClass: Class<*>) = try {
 
 class KSTypeNotPresentException(val ksType: KSType, cause: Throwable) : RuntimeException(cause)
 
-class KSTypesNotPresentException(val ksTypes: List<KSType>, cause: Throwable) : RuntimeException(cause)
+class KSTypesNotPresentException(val ksTypes: List<KSType>, cause: Throwable) :
+    RuntimeException(cause)
 
 fun KSDeclaration.toClassName(): ClassName {
     return ClassName(packageName.asString(), simpleName.asString())
 }
 
-fun String.toTranslateString():String {
+fun String.toTranslateString(): String {
     return "\"" + replace("\\", "\\\\") + "\""
 }
 
 operator fun OutputStream.plusAssign(str: String) = write(str.toByteArray())
+
+fun String.hash(): String {
+    return runCatching {
+        val md = MessageDigest.getInstance("MD5")
+        md.update(toByteArray())
+        BigInteger(1, md.digest()).toString(16)
+    }.getOrDefault(hashCode().toString())
+}

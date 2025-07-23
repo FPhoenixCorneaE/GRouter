@@ -13,6 +13,7 @@ java {
 dependencies {
     implementation(gradleApi())
     compileOnly(libs.gradle)
+    compileOnly(projects.grouterAnnotation)
     implementation(libs.asm)
     implementation(libs.asm.commons)
 }
@@ -20,7 +21,7 @@ dependencies {
 gradlePlugin {
     plugins {
         create("grouter-plugin") {
-            id = "grouter-plugin"
+            id = "grouter"
             implementationClass = "com.fphoenixcorneae.grouter.plugin.RouterPlugin"
         }
     }

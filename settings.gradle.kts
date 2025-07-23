@@ -9,7 +9,7 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
-//        maven("/localRepos")
+        maven("/localRepos")
         maven ("https://jitpack.io")
     }
 }

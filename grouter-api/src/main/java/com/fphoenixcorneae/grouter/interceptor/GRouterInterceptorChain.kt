@@ -27,14 +27,14 @@ class GRouterInterceptorChain internal constructor(
         // Confirm that the next interceptor made its required call to chain.proceed().
         if (response == null && index + 1 < call.interceptors().size && next.calls != 1) {
             throw IllegalStateException(
-                "Router interceptor " + interceptor
+                "GRouter interceptor " + interceptor
                         + " must call proceed() exactly once"
             )
         }
 
         // Confirm that the intercepted response isn't null.
         if (response == null) {
-            throw NullPointerException("Router interceptor $interceptor returned null")
+            throw NullPointerException("GRouter interceptor $interceptor returned null")
         }
         return response
     }

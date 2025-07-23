@@ -1,5 +1,6 @@
-package com.fphoenixcorneae.grouter.plugin
+package com.fphoenixcorneae.grouter.plugin.classvisitor
 
+import com.fphoenixcorneae.grouter.constant.Constant
 import org.gradle.api.file.Directory
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.MethodVisitor
@@ -42,11 +43,11 @@ class RouteRegisterMethodVisitor(
     ): MethodVisitor {
         val mv = super.visitMethod(access, name, descriptor, signature, exceptions)
         if (name == Constant.ROUTER_REGISTER_METHOD_NAME) {
-            println("Router plugin find RouteRegister.registerRoutes() method")
+            println("GRouter plugin find RouteRegister.registerRoutes() method")
             return object : InstructionAdapter(Opcodes.ASM9, mv) {
                 override fun visitCode() {
                     validClasses.forEach { clazz ->
-                        println("Router plugin call $clazz.register() method")
+                        println("GRouter plugin call $clazz.register() method")
                         invokestatic(
                             clazz,
                             Constant.ROUTER_METHOD_NAME,

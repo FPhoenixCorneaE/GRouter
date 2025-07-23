@@ -26,7 +26,7 @@ class GRouterCall private constructor(
 
     override fun execute(): GRouterResponse {
         if (executed) {
-            throw IllegalStateException("Router call is already executed.")
+            throw IllegalStateException("GRouter call is already executed.")
         }
         executed = true
         val interceptorChain = GRouterInterceptorChain(this)

@@ -1,0 +1,96 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "GRouter",
+    "module": "grouter-plugin",
+    "version": "unspecified",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.7"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.0.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "grouter-plugin-unspecified.jar",
+          "url": "grouter-plugin-unspecified.jar",
+          "size": 17432,
+          "sha512": "4edb3c8b6f14430c0803f781fbd154e648cc4533cbdf6b393b3fd92ac7ba6b2d777a67b63817bb0efe6aa6b3bb0295f6d9838948d33a42fc471156634e505e5b",
+          "sha256": "62cb24b9b97a1b5a2ed5d698d1c4d933eb4e7c06a1fcf60de648ca07ad5e1b07",
+          "sha1": "47eb907a265f0e90b78a542539bb9b2facd080c7",
+          "md5": "d030357781e10d0eb1818150844ba635"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.jvm.version": 21,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.ow2.asm",
+          "module": "asm",
+          "version": {
+            "requires": "9.6"
+          }
+        },
+        {
+          "group": "org.ow2.asm",
+          "module": "asm-commons",
+          "version": {
+            "requires": "9.6"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.0.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "grouter-plugin-unspecified.jar",
+          "url": "grouter-plugin-unspecified.jar",
+          "size": 17432,
+          "sha512": "4edb3c8b6f14430c0803f781fbd154e648cc4533cbdf6b393b3fd92ac7ba6b2d777a67b63817bb0efe6aa6b3bb0295f6d9838948d33a42fc471156634e505e5b",
+          "sha256": "62cb24b9b97a1b5a2ed5d698d1c4d933eb4e7c06a1fcf60de648ca07ad5e1b07",
+          "sha1": "47eb907a265f0e90b78a542539bb9b2facd080c7",
+          "md5": "d030357781e10d0eb1818150844ba635"
+        }
+      ]
+    }
+  ]
+}

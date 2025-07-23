@@ -3,6 +3,7 @@ package com.fphoenixcorneae.grouter.ksp
 import com.fphoenixcorneae.grouter.annotation.RouteInfo
 import com.fphoenixcorneae.grouter.annotation.Router
 import com.fphoenixcorneae.grouter.annotation.routeUrl
+import com.fphoenixcorneae.grouter.constant.Constant
 import com.google.devtools.ksp.getAllSuperTypes
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSDeclaration

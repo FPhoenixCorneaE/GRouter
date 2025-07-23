@@ -1,6 +1,7 @@
 package com.fphoenixcorneae.grouter.ksp
 
 import com.fphoenixcorneae.grouter.annotation.Router
+import com.fphoenixcorneae.grouter.constant.Constant
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.Resolver
@@ -31,7 +32,7 @@ class SimpleSymbolProcessor(
          * Method: fun register()
          */
         val loadRouteMethodBuilder = FunSpec.builder(Constant.ROUTER_METHOD_NAME)
-            .addKdoc(Constant.ROUTER_METHOD_DOC)
+            .addKdoc(Constant.ROUTER_DOC)
         // 遍历 Sequence 处理每一个 KSClassDeclaration 对象
         symbols.forEach { symbol ->
             symbol.accept(
@@ -45,7 +46,7 @@ class SimpleSymbolProcessor(
             )
         }
         // 创建我们自动生成的文件
-        val generatedClassName = "${Constant.ROUTER_GENERATE_CLASS_NAME_PREFIX}$moduleName"
+        val generatedClassName = "${Constant.ROUTER_GENERATE_CLASS_NAME_PREFIX}${moduleName.hash()}"
         val fileSpec = FileSpec.builder(Constant.ROUTER_GENERATE_PACKAGE_NAME, generatedClassName)
             .jvmName(generatedClassName)
             .addImport(Constant.ROUTER_PACKAGE_NAME, Constant.ROUTER_NAME)

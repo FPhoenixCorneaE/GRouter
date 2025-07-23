@@ -5,19 +5,22 @@ import com.android.build.api.instrumentation.FramesComputationMode
 import com.android.build.api.instrumentation.InstrumentationScope
 import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.gradle.AppPlugin
+import com.fphoenixcorneae.grouter.plugin.factory.RouterClassVisitorFactory
+import com.fphoenixcorneae.grouter.plugin.task.GenRouteRegisterTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.configurationcache.extensions.capitalized
 
 class RouterPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
         val isApp = project.plugins.hasPlugin(AppPlugin::class.java)
 
-        require(isApp) { "Router plugin only support application module" }
+        require(isApp) { "GRouter plugin only support application module" }
 
         val androidComponents = project.extensions.getByType(AndroidComponentsExtension::class.java)
 
-        println("-------- Router plugin Env --------")
+        println("-------- GRouter plugin Env --------")
         println("Gradle version ${project.gradle.gradleVersion}")
         println("${androidComponents.pluginVersion}")
         println("JDK version ${System.getProperty("java.version")}")
@@ -27,10 +30,10 @@ class RouterPlugin : Plugin<Project> {
         }
 
         androidComponents.onVariants { variant ->
-            val addSourceTaskProvider = project.tasks.register(
-                "${variant.name}GenRouterRegister",
-                GenRouteRegisterTask::class.java
-            )
+            // 任务名称，`variant` 名称首字母大写
+            val taskName = "GenRouterRegister${variant.name.capitalized()}"
+            val addSourceTaskProvider =
+                project.tasks.register(taskName, GenRouteRegisterTask::class.java)
             variant.sources.java?.addGeneratedSourceDirectory(
                 addSourceTaskProvider,
                 GenRouteRegisterTask::outputFolder
@@ -38,7 +41,7 @@ class RouterPlugin : Plugin<Project> {
 
             val generatedDir = "generated/ksp/"
             variant.instrumentation.transformClassesWith(
-                RouterAsmClassVisitor::class.java,
+                RouterClassVisitorFactory::class.java,
                 InstrumentationScope.PROJECT
             ) { param ->
                 param.genDirName.set(generatedDir)
